@@ -8,13 +8,13 @@ const ListadoProyectos = () => {
     const proyectosContext = useContext(proyectoContext);
     const {proyectos, obtenerProyectos} = proyectosContext;
     
-    //Obtener proyectos
+    //Obtener proyectos cuando carga el componente
     useEffect(() => {
         obtenerProyectos();
     }, []);
 
     //Revisar si proyectos tiene contenido
-    if (proyectos.length === 0) return null;
+    if (proyectos.length === 0) return <p>No hay proyectos, comienza creando uno</p>;
 
     return (  
         <ul className="listado-proyectos">
