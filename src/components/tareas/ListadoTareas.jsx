@@ -1,12 +1,18 @@
 import React, {Fragment, useContext} from 'react';
 import Tarea from './Tarea';
 import proyectoContext from '../../context/proyectos/proyectoContext';
+import tareaContext from '../../context/tareas/tareaContext';
+import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
 const ListadoTareas = () => {
 
     //Extraer proyectos de state inicial
     const proyectosContext = useContext(proyectoContext);
     const {proyecto, eliminarProyecto} = proyectosContext;
+
+    //Obtener las tareas del proyecto
+    const tareasContext = useContext(tareaContext);
+    const {tareasproyecto} = tareasContext;
     
     //Si no hay proyecto seleccionado
     if(!proyecto) {
@@ -15,13 +21,6 @@ const ListadoTareas = () => {
 
     //Array destructuring para extraer el proyecto actual
     const [proyectoActual] = proyecto;
-
-    const tareasProyecto = [
-        {nombre: 'Elegir Plataforma', estado: true},
-        {nombre: 'Elegir Colores', estado: false},
-        {nombre: 'Elegir Plataforma de pago', estado: false},
-        {nombre: 'Elegir Hosting', estado: true},
-    ];
 
     //Elimina un proyecto
     const onClickEliminar = () => {
@@ -32,11 +31,21 @@ const ListadoTareas = () => {
         <Fragment>
             <h2>Proyecto: {proyectoActual.nombre}</h2>
             <ul className="listado-tareas">
-                {tareasProyecto.length === 0 ? (<li className="tarea"><p>No hay tareas</p></li>) : tareasProyecto.map(tarea => (
-                    <Tarea 
-                        tarea={tarea}
-                    />
-                ))}
+                {tareasproyecto.length === 0 ? (<li className="tarea"><p>No hay tareas</p></li>) 
+                : <TransitionGroup>
+                    {tareasproyecto.map(tarea => (
+                        <CSSTransition 
+                            key={tarea.id} 
+                            timeout={600}
+                            classNames="tarea"
+                        >
+                            <Tarea
+                                tarea={tarea}
+                            />
+                        </CSSTransition>
+                    ))}
+                  </TransitionGroup>
+                }
             </ul>
             <button 
                 type="button"
