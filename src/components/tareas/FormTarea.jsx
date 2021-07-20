@@ -58,10 +58,10 @@ const FormTarea = () => {
         //Revisar si es edición o si es nueva tarea
         if (tareaSeleccionada === null) { //Tarea nueva
             //agregar nueva tarea al state de tareas
-            tarea.proyectoId = proyectoActual.id;
-            tarea.estado = false;
+            tarea.proyecto = proyectoActual._id;
+            //Reemplazo el .id por el _id de mongo 
+            // tarea.estado = false; Ya no es necesario puesto que en el modelo de tarea ya está definido
             agregarTarea(tarea);
-
         } else {
             //actualizar tarea existente
             actualizarTarea(tarea);
